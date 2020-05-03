@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>크러쉬 월드 사전 예약</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<body>
+<form action="./add.php" method="post" id="sendfiles">
+    <center>
+        <h1><br><br>크러쉬 월드: 모험의 시작에 사전 예약 하세요!<br><br></h1>
+        <h3 id="reservation">0명이 사전예약을 완료했습니다.</h3>
+        <h3>
+            <span class="input-group-lg"><br>닉네임</span>
+            <input id="nickname_" type="text" name="nickname_" aria-label="name"
+                   class="form-check-inline form-control-lg">
+            <button type="submit" class="btn btn-secondary" id="submit" disabled>확인</button>
+        </h3>
+        <h5 id="time"></h5>
+    </center>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+
+    <script>
+
+        // player count appear
+        players = 30;
+        count = 0;
+        int = setInterval(function () {
+            if (count < players) {
+                count++;
+                document.getElementById("reservation").innerHTML = count + "명이 사전예약을 완료했습니다.";
+            } else {
+                clearInterval(int);
+            }
+        }, (1 / players) * 5000)
+
+        time = setInterval(function () {
+            var time = new Date();
+
+            var hours = time.getHours();
+            var minutes = time.getMinutes();
+            var seconds = time.getSeconds();
+            document.getElementById("time").innerHTML = hours + "시 " + minutes + "분 " + seconds + "초";
+
+        }, 50);
+
+        // nickname input
+        document.getElementById("nickname_").oninput = function () {
+
+            var files = document.getElementById('nickname_').value;
+            //var files = this.files;
+            //var files = $(this).val();
+            if (files.trim().length > 3) {
+                document.getElementById("submit").className = "btn btn-success";
+                document.getElementById("submit").disabled = false;
+                document.getElementById("submit").innerHTML = '확인';
+            } else {
+                document.getElementById("submit").className = "btn btn-danger";
+                document.getElementById("submit").disabled = true;
+
+                document.getElementById("submit").innerHTML = '확인';
+            }
+        }
+
+        //submit
+        document.getElementById('submit').onclick = function () {
+            var elementById = document.getElementById('nickname_');
+            var nickname = elementById.value;
+            alert("사전 예약 완료!\n" + nickname + " 님, 감사합니다.");
+            elementById.value = "";
+
+            var f = document.getElementById("sendfiles")
+            f.nick = nickname;
+            //console.log(f);
+            f.submit();
+
+        }
+    </script>
+</body>
+</html>
